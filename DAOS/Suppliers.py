@@ -1,4 +1,4 @@
-class suppliers:
+class _Suppliers:
     def __init__(self,con):
         self._con = con
 
@@ -9,3 +9,8 @@ class suppliers:
                 id   INTEGER PRIMARY KEY, 
                 name STRING NOT NULL
                 );""")
+
+
+    def insert_supplier(self,supplier):
+        self._con.execute("""INSERT INTO suppliers(id,name) 
+                VALUES({},'{}')""".format(supplier.id, supplier.name))

@@ -4,7 +4,7 @@ class _Hats:
 
 
     def insert_hat(self,hat):
-        self._con.execute("""INSERT INTO hats(id,topping,supplier,quantity)VALUES({},'{}',{},{}) """.format(hat.hat_id,hat.topping,hat.supplier_id,hat.quantity))
+        self._con.execute("""INSERT INTO hats(id,topping,supplier,quantity)VALUES({},'{}',{},{}) """.format(hat.id,hat.topping,hat.supplier_id,hat.quantity))
 
     def create_hats_table(self):
         cursor = self._con.cursor()
