@@ -16,3 +16,18 @@ class _Hats:
                         "quantity" INTEGER NOT NULL,
                         FOREIGN KEY("supplier") REFERENCES "suppliers"("id")
                         );""")
+
+
+    def place_order_from_inventory(self,topping_order):
+        cursor = self._con.cursor()
+        cursor.execute(""" SELECT * 
+                FROM hats 
+                WHERE hats.topping = topping_order 
+                ORDER BY hats.supplier""")
+        curr_line = cursor.fetchone()
+        if curr_line[3]>1:
+            temp = curr_line[3] -1
+            cursor.execute("UPDATE hats SET hats.quantity = temp WHERE hats.id = curr_line[0]")
+        else:
+            cursor.execute("DELETE FROM hats WHERE hats.id = curr_line[0]")
+
