@@ -9,8 +9,8 @@ from DTOS.Supplier import Supplier
 
 
 class _Repository:
-    def __init__(self):
-        self._conn = sqlite3.connect("database.db")
+    def __init__(self, database):
+        self._conn = sqlite3.connect(database)
         self.hats = _Hats(self._conn)
         self.orders = _Orders(self._conn)
         self.suppliers = _Suppliers(self._conn)
