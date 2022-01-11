@@ -14,7 +14,6 @@ class _Repository:
         self.hats = _Hats(self._conn)
         self.orders = _Orders(self._conn)
         self.suppliers = _Suppliers(self._conn)
-        self.output_file = ""
 
     def close(self):
         self._conn.commit()
@@ -66,4 +65,4 @@ class _Repository:
 
 
 rep = _Repository()
-atexit.register(rep.close())
+atexit.register(rep.close)
