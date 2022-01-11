@@ -8,8 +8,7 @@ class _Orders:
             CREATE TABLE orders(
                 id INTEGER PRIMARY KEY,
                 location STRING NOT NULL,
-                hat_id INTEGER,
-                FOREIGN KEY("hat_id") REFERENCES "hats"("id") 
+                hat_id INTEGER REFERENCES hats(id)
         );""")
 
     def insert_order(self,order):

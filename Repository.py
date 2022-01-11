@@ -31,21 +31,22 @@ class _Repository:
         num_of_suppliers = line[1]
 
         for i in range(int(num_of_type)):
-            split = file.readline().split(',')
+            split = file.readline().replace('\n',"").split(",")
             hat = Hat(split[0], split[1], split[2], split[3])
             self.hats.insert_hat(hat)
 
         for i in range(int(num_of_suppliers)):
-            split = file.readline().split(',')
+            split = file.readline().replace('\n',"").split(",")
             supplier = Supplier(split[0], split[1])
             self.suppliers.insert_supplier(supplier)
 
     def read_orders(self, orders_path, output_path):
         file = open(orders_path)
-        output_file = open(output_path)
+        output_file = open(output_path, 'w')
+        orders = file.read().split('\n')
         i = 0
-        for line in file:
-            split = line.split(',')
+        for line in orders:
+            split = line.split(",")
             location = split[0]
             topping = split[1]
             if self.hats.contains_topping(topping):

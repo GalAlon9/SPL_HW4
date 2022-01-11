@@ -1,3 +1,4 @@
+
 class _Suppliers:
     def __init__(self, con):
         self._con = con
@@ -7,7 +8,7 @@ class _Suppliers:
         cursor.execute("""
             CREATE TABLE suppliers(
                 id   INTEGER PRIMARY KEY, 
-                name STRING NOT NULL
+                name TEXT NOT NULL
                 );""")
 
     def insert_supplier(self, supplier):
@@ -20,5 +21,5 @@ class _Suppliers:
                       FROM suppliers 
                       WHERE id = ?
                       """, [supplier_id])
-        supplier_name = cursor.fetchone()
+        supplier_name = cursor.fetchone()[0]
         return supplier_name
