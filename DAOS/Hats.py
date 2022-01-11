@@ -7,16 +7,16 @@ class _Hats:
 
     def insert_hat(self, hat):
         self._con.execute(
-            """INSERT INTO hats(id,topping,supplier,quantity)VALUES({},'{}',{},{}) """.format(hat.id, hat.topping,
+            """INSERT INTO hats(id,topping,supplier,quantity)VALUES(?,?,?,?) """,[hat.id, hat.topping,
                                                                                               hat.supplier_id,
-                                                                                              hat.quantity))
+                                                                                              hat.quantity])
 
     def create_hats_table(self):
         cursor = self._con.cursor()
         cursor.execute("""
-                        CREATE TABLE hats(
+                        CREATE TABLE hats (
                         "id"       INTEGER  PRIMARY KEY , 
-                        "topping"  STRING NOT NULL,   
+                        "topping"  TEXT NOT NULL,   
                         "supplier" INTEGER,
                         "quantity" INTEGER NOT NULL,
                         FOREIGN KEY("supplier") REFERENCES "suppliers"("id")
@@ -26,8 +26,8 @@ class _Hats:
         cursor = self._con.cursor()
         cursor.execute(""" SELECT * 
                 FROM hats 
-                WHERE topping = {}
-                ORDER BY supplier""".format(topping_order))
+                WHERE topping = ?
+                ORDER BY supplier""", [topping_order])
         hat = Hat(*cursor.fetchone())
         self.update_quantity(hat, cursor)
         return hat
@@ -36,16 +36,15 @@ class _Hats:
         cursor = self._con.cursor()
         cursor.execute(""" SELECT id 
                        FROM hats 
-                       WHERE topping = {}
-                      """.format(topping))
+                       WHERE topping = ?
+                      """, [topping])
         hat_id = cursor.fetchone()
         # returns true if topping exist , else returns false
         return hat_id is not None
 
-    def update_quantity(self , hat , cursor):
-        hat_quantity = hat[3]
-        if hat_quantity > 1:
-            temp = hat_quantity - 1
-            cursor.execute("UPDATE hats SET quantity = temp WHERE id = hat[0]")
+    def update_quantity(self, hat, cursor):
+        if hat.quantity > 1:
+            temp = hat.quantity - 1
+            cursor.execute("UPDATE hats SET quantity = temp WHERE id = ?", [hat.id])
         else:
-            cursor.execute("DELETE FROM hats WHERE id = hat[0]")
+            cursor.execute("DELETE FROM hats WHERE id = ?", [hat.id])

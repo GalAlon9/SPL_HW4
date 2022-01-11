@@ -1,5 +1,5 @@
 class _Suppliers:
-    def __init__(self,con):
+    def __init__(self, con):
         self._con = con
 
     def create_suppliers_table(self):
@@ -10,16 +10,15 @@ class _Suppliers:
                 name STRING NOT NULL
                 );""")
 
-
-    def insert_supplier(self,supplier):
+    def insert_supplier(self, supplier):
         self._con.execute("""INSERT INTO suppliers(id,name) 
-                VALUES({},'{}')""".format(supplier.id, supplier.name))
+                VALUES(?,?)""", [supplier.id, supplier.name])
 
-    def get_name(self,supplier_id):
+    def get_name(self, supplier_id):
         cursor = self._con.cursor()
         cursor.execute(""" SELECT name 
                       FROM suppliers 
-                      WHERE id = {}
-                      """.format(supplier_id))
+                      WHERE id = ?
+                      """, [supplier_id])
         supplier_name = cursor.fetchone()
         return supplier_name

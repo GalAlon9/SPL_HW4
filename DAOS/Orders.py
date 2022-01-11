@@ -14,4 +14,4 @@ class _Orders:
 
     def insert_order(self,order):
         self._con.execute("""INSERT INTO orders(id,location,hat_id)
-                VALUES ({},'{}',{})""".format(order.id,order.location,order.hat_id))
+                VALUES (?,?,?)""", [order.id,order.location,order.hat_id])
