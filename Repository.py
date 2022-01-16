@@ -1,5 +1,7 @@
 import atexit
 import sqlite3
+import sys
+
 from DAOS.Hats import _Hats
 from DAOS.Suppliers import _Suppliers
 from DAOS.Orders import _Orders
@@ -9,8 +11,8 @@ from DTOS.Supplier import Supplier
 
 
 class _Repository:
-    def __init__(self, database):
-        self._conn = sqlite3.connect(database)
+    def __init__(self):
+        self._conn = sqlite3.connect(sys.argv[4])
         self.hats = _Hats(self._conn)
         self.orders = _Orders(self._conn)
         self.suppliers = _Suppliers(self._conn)
@@ -39,6 +41,8 @@ class _Repository:
             split = file.readline().replace('\n',"").split(",")
             supplier = Supplier(split[0], split[1])
             self.suppliers.insert_supplier(supplier)
+
+        file.close()
 
     def read_orders(self, orders_path, output_path):
         file = open(orders_path)
